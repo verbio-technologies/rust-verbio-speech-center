@@ -1,0 +1,13 @@
+[package]
+name = "speech-center-client"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+async-stream = "0.3"
+prost = "0.9"
+thiserror = "1"
+tonic = { version = "0.6.2", features = ["tls", "tls-roots"] }
+
+[build-dependencies]
+tonic-build = "0.6.2"

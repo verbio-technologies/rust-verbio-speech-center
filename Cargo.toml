@@ -1,0 +1,2 @@
+[workspace]
+members = [ "batch-client", "cli-client", "speech-center-client" ]

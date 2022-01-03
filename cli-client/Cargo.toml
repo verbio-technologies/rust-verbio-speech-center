@@ -1,0 +1,10 @@
+[package]
+name = "cli-client"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+speech-center-client = { path = "../speech-center-client" }
+
+structopt = { version = "0.3", default-features = false }
+tokio = { version = "1", features = ["full"] }

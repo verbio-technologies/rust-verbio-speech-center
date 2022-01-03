@@ -1,0 +1,16 @@
+[package]
+name = "batch-client"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+speech-center-client = { path = "../speech-center-client" }
+
+anyhow = "1"
+async-channel = "1.6.1"
+chrono = "0.4"
+structopt = { version = "0.3", default-features = false }
+tokio = { version = "1", features = ["full"] }
+tracing = "0.1"
+tracing-log = { version = "0.1", features = ["env_logger"] }
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
