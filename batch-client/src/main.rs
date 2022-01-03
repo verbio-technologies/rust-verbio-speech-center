@@ -1,7 +1,6 @@
 #[macro_use]
 extern crate tracing;
 
-use crate::log::Logger;
 use crate::worker::{Payload, Worker};
 use anyhow::{anyhow, Result};
 use async_channel::Sender;
@@ -72,7 +71,7 @@ async fn start_workers(url: &str, token: &str, count: u16) -> Result<Sender<Payl
         let token = token.to_string();
         let rx = rx.clone();
         tokio::spawn(async move {
-            let span = info_span!("Worker-%d", idx);
+            let span = info_span!("Worker", worker=%idx);
             let w = Worker::new(&url, &token, rx)
                 .await
                 .expect("Error starting worker");
@@ -140,6 +139,10 @@ fn entry_to_payload(
     })?;
 
     let dest = Path::new(dest_dir).join(format!("{}.txt", stem));
+    if dest.exists() {
+        return Ok(None);
+    }
+
     let dest = format!("{}", dest.display());
 
     Ok(Some(Payload::File {
@@ -195,7 +198,9 @@ async fn run(
 async fn main() {
     let opts = Args::from_args();
 
-    Logger::new().set_global_subscriber(&opts.log_level);
+    log::init_logger(&opts.log_level);
+    debug!("Args: {:?}", opts);
+
     let topic = Topic::from_name(&opts.topic).expect("Error converting topic");
 
     let token = std::fs::read_to_string(&opts.token_file).expect("Error reading token from file");
