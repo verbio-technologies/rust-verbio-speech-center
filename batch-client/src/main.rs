@@ -58,7 +58,7 @@ struct Args {
     )]
     language: String,
 
-    /// Language to use for the recognision
+    /// Number of workers to use for the recognision
     #[structopt(short = "w", long = "workers", default_value = "4")]
     workers: u16,
 }

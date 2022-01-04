@@ -113,9 +113,20 @@ impl Client {
     pub async fn recognise_with_grammar(
         &mut self,
         grammar: &str,
+        language: &str,
         audio: Vec<u8>,
     ) -> Result<String> {
-        todo!()
+        let initial = RecognitionRequest {
+            request_union: Some(RequestUnion::Init(RecognitionInit {
+                parameters: Some(RecognitionParameters {
+                    language: language.to_string(),
+                }),
+                resource: Some(RecognitionResource {
+                    resource: Some(Resource::InlineGrammar(grammar.to_string())),
+                }),
+            })),
+        };
+        self.recognise(audio, initial).await
     }
 
     async fn recognise(&mut self, audio: Vec<u8>, initial: RecognitionRequest) -> Result<String> {
