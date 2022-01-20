@@ -1,5 +1,7 @@
 # Rust Verbio SpeechCenter Client
 
+[![Lint](https://github.com/cquintana92/rust-verbio-speech-center/actions/workflows/lint.yaml/badge.svg)](https://github.com/cquintana92/rust-verbio-speech-center/actions/workflows/lint.yaml)
+
 ## How to build
 
 In order to build the system
