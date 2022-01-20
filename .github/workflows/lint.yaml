@@ -1,0 +1,29 @@
+name: lint
+on:
+  pull_request: {}
+  push:
+    branches:
+      - main
+jobs:
+  test:
+    name: lint
+    runs-on: ubuntu-20.04
+    steps:
+      # Setup repo
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      # Install rust stable
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+
+      # Setup Rust cache
+      - uses: Swatinem/rust-cache@v1
+
+      # Check format
+      - run: cargo fmt --all -- --check
+
+      # Clippy (linter)
+      - run: cargo clippy --all --all-targets -- -D warnings
