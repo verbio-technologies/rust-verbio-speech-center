@@ -65,7 +65,7 @@ async fn main() {
                 .await
                 .expect("Error in recognision");
             println!("Res: {}", res);
-        },
+        }
         (_, Some(topic)) => {
             let topic = Topic::from_name(&topic).expect("Error converting topic");
             let res = client
@@ -73,7 +73,7 @@ async fn main() {
                 .await
                 .expect("Error in recognision");
             println!("Res: {}", res);
-        },
+        }
         _ => {
             panic!("Either grammar or topic must be defined");
         }
