@@ -3,11 +3,11 @@ use structopt::StructOpt;
 
 #[derive(Clone, Debug, StructOpt)]
 struct Args {
-    /// Path to the token file
+    /// Path to the authentication token file
     #[structopt(short = "t", long = "token-file", required = true)]
     token_file: String,
 
-    /// URL of the server
+    /// The URL of the host or server trying to reach
     #[structopt(
         short = "u",
         long = "url",
@@ -20,15 +20,15 @@ struct Args {
     #[structopt(short = "T", long = "topic")]
     topic: Option<String>,
 
-    /// Path to the grammar file to use for the recognision
+    /// Path to the ABNF grammar file to use for the recognition
     #[structopt(short = "g", long = "grammar")]
     grammar: Option<String>,
 
-    /// Audio to use for the recognision
+    /// Path to a .wav audio in 8kHz and PCM16 encoding to use for the recognition
     #[structopt(short = "a", long = "audio", required = true)]
     audio: String,
 
-    /// Language to use for the recognision
+    /// Language to use for the recognition
     #[structopt(
         short = "l",
         long = "language",
