@@ -24,11 +24,11 @@ struct Args {
     )]
     log_level: String,
 
-    /// Path to the token file
+    /// Path to the authentication token file
     #[structopt(short = "t", long = "token-file", required = true)]
     token_file: String,
 
-    /// URL of the server
+    /// The URL of the host or server trying to reach
     #[structopt(
         short = "u",
         long = "url",
@@ -37,11 +37,11 @@ struct Args {
     )]
     url: String,
 
-    /// Topic to use for the recognision. Must be GENERIC | BANKING | TELCO
+    /// Topic to use for the recognition. Must be GENERIC | BANKING | TELCO
     #[structopt(short = "T", long = "topic", required = true)]
     topic: String,
 
-    /// Directory containing audios to use for the recognision
+    /// Directory containing .wav audios in 8kHz and PCM16 encoding to use for the recognition
     #[structopt(short = "d", long = "dir", required = true)]
     source_dir: String,
 
@@ -49,7 +49,7 @@ struct Args {
     #[structopt(short = "D", long = "dest-dir", required = true)]
     dest_dir: String,
 
-    /// Language to use for the recognision
+    /// Language to use for the recognition
     #[structopt(
         short = "l",
         long = "language",
@@ -58,7 +58,7 @@ struct Args {
     )]
     language: String,
 
-    /// Number of workers to use for the recognision
+    /// Number of workers to use for the recognition
     #[structopt(short = "w", long = "workers", default_value = "4")]
     workers: u16,
 }
