@@ -30,12 +30,12 @@ FLAGS:
     -V, --version    Prints version information
 
 OPTIONS:
-    -a, --audio <audio>              Audio to use for the recognision
-    -g, --grammar <grammar>          Path to the grammar file to use for the recognision
-    -l, --language <language>        Language to use for the recognision [default: en-US]
-    -t, --token-file <token-file>    Path to the token file
-    -T, --topic <topic>              Topic to use for the recognision. Must be GENERIC | BANKING | TELCO
-    -u, --url <url>                  URL of the server [default: https://speechcenter.verbio.com:2424]
+    -a, --audio <audio>              Path to a .wav audio in 8kHz and PCM16 encoding to use for the recognition
+    -g, --grammar <grammar>          Path to the ABNF grammar file to use for the recognition
+    -l, --language <language>        Language to use for the recognition [default: en-US]
+    -t, --token-file <token-file>    Path to the authentication token file
+    -T, --topic <topic>              Topic to use for the recognition. Must be GENERIC | BANKING | TELCO
+    -u, --url <url>                  The URL of the host or server trying to reach [default: https://speechcenter.verbio.com:2424]
 ```
 
 An example execution could be:
@@ -62,13 +62,13 @@ FLAGS:
 
 OPTIONS:
     -D, --dest-dir <dest-dir>        Destination directory for the transcriptions
-    -l, --language <language>        Language to use for the recognision [default: en-US]
+    -l, --language <language>        Language to use for the recognition [default: en-US]
     -L, --log-level <log-level>      Log level. Must be TRACE | DEBUG | INFO | WARN | ERROR [default: info]
-    -d, --dir <source-dir>           Directory containing audios to use for the recognision
-    -t, --token-file <token-file>    Path to the token file
-    -T, --topic <topic>              Topic to use for the recognision. Must be GENERIC | BANKING | TELCO
-    -u, --url <url>                  URL of the server [default: https://speechcenter.verbio.com:2424]
-    -w, --workers <workers>          Number of workers to use for the recognision [default: 4]
+    -d, --dir <source-dir>           Directory containing .wav audios in 8kHz and PCM16 encoding to use for the recognition
+    -t, --token-file <token-file>    Path to the authentication token file
+    -T, --topic <topic>              Topic to use for the recognition. Must be GENERIC | BANKING | TELCO
+    -u, --url <url>                  The URL of the host or server trying to reach [default: https://speechcenter.verbio.com:2424]
+    -w, --workers <workers>          Number of workers to use for the recognition [default: 4]
 ```
 
 An example execution could be:
