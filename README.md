@@ -22,7 +22,11 @@ It will build two binaries: `batch-client` and `cli-client`.
 
 ### CLI client
 
-The CLI client integrates two sub-commands: Recognition, which corresponds to the Speech-to-Text operation either using an ABNF Grammar or an out-of-the-box statistical mode, and Synthesis, its reciprocal Text-to-Speech operation.
+The CLI client integrates two sub-commands:
+* Recognition: Speech-to-Text operation, using either an ABNF Grammar or a topic for an out-of-the-box statistical model.
+* Synthesis: Text-to-Speech operation.
+
+You can use the `--help` command to find out more about the client.
 
 ```
 λ ./target/release/cli-client --help
@@ -43,10 +47,9 @@ SUBCOMMANDS:
 ```
 
 
-### CLI client recognition
+#### CLI client recognition
 
-The CLI client recognition allows you to launch a single file to the server. To do so, it permits the usage of either a grammar or a language model.
-
+The CLI client recognition allows you to transcribe a single audio file. To do so, it will require either an ABNF grammar or a recognition topic such as `GENERIC`.
 ```
 λ ./target/release/cli-client recognition --help
 cli-client-recognition 0.1.0
@@ -74,7 +77,7 @@ An example execution could be:
 ```
 
 
-### CLI client synthesis
+#### CLI client synthesis
 
 The CLI client synthesis 
 
@@ -115,7 +118,7 @@ An example execution could be:
 
 ### Batch client (Recognition Only)
 
-The batch client iterates over wav files inside a directory, sends them in parallel to the server and stores the transcription in another directory.
+The batch client iterates over wav files inside a directory, sends them in parallel to the server and stores the transcription in the specified folder.
 
 ```
 λ ./target/release/batch-client --help
