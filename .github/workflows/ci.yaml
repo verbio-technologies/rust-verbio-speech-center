@@ -1,4 +1,4 @@
-name: lint
+name: Rust package
 on:
   pull_request: {}
   push:
@@ -6,7 +6,7 @@ on:
       - main
 jobs:
   test:
-    name: lint
+    name: test
     runs-on: ubuntu-20.04
     steps:
       # Setup repo
@@ -27,3 +27,6 @@ jobs:
 
       # Clippy (linter)
       - run: cargo clippy --all --all-targets -- -D warnings
+
+      # Run tests
+      - run: cargo test --all

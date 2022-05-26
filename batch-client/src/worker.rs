@@ -1,5 +1,5 @@
 use async_channel::{Receiver, Sender};
-use speech_center_client::{Client, Result, SpeechCenterError, Topic};
+use speech_center_client::{RecognitionClient, Result, SpeechCenterError, Topic};
 
 pub enum Payload {
     File {
@@ -12,13 +12,13 @@ pub enum Payload {
 }
 
 pub struct Worker {
-    client: Client,
+    client: RecognitionClient,
     rx: Receiver<Payload>,
 }
 
 impl Worker {
     pub async fn new(url: &str, token: &str, rx: Receiver<Payload>) -> Result<Self> {
-        let client = Client::new(url, token).await?;
+        let client = RecognitionClient::new(url, token).await?;
         Ok(Self { client, rx })
     }
 
