@@ -125,7 +125,7 @@ OPTIONS:
     -T, --text <text>                  Text to synthesize to audio
     -t, --token-file <token-file>      Path to the JWT authentication token file
     -u, --url <url>                    The URL of the gRPC host or server trying to reach [default:
-                                       https://speechcenter.verbio.com:2424]
+                                       https://tts.api.speechcenter.verbio.com]
     -v, --voice <voice>                Voice to use for the synthesis. Supported Tommy | Annie | Aurora | Luma | David
 ```
 
