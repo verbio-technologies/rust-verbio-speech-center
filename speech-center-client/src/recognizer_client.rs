@@ -1,10 +1,11 @@
 use crate::csr_grpc_gateway::recognition_request::RequestUnion;
-use crate::csr_grpc_gateway::recognition_resource::{Model, Resource};
+use crate::csr_grpc_gateway::recognition_resource::{Model, ResourceUnion};
 use crate::csr_grpc_gateway::speech_recognizer_client::SpeechRecognizerClient;
 use crate::csr_grpc_gateway::{
     RecognitionInit, RecognitionParameters, RecognitionRequest, RecognitionResource,
 };
 use crate::{Result, SpeechCenterError};
+use std::error::Error;
 use std::str::FromStr;
 use tonic::codegen::InterceptedService;
 use tonic::metadata::{Ascii, MetadataValue};
@@ -66,6 +67,7 @@ impl Interceptor for AddAuthorizationInterceptor {
     }
 }
 
+#[derive(Debug)]
 pub struct Client {
     inner: SpeechRecognizerClient<InterceptedService<Channel, AddAuthorizationInterceptor>>,
 }
@@ -82,7 +84,11 @@ impl Client {
             .tls_config(ClientTlsConfig::default())
             .map_err(|e| SpeechCenterError::Unknown(format!("Error setting up tls: {:?}", e)))?;
         let channel = channel.connect().await.map_err(|e| {
-            SpeechCenterError::Connection(format!("Error in connection [url={}]: {:?}", url, e))
+            SpeechCenterError::Connection(format!(
+                "Could not connect [url={}] {}",
+                url,
+                e.source().map(|e| e.to_string()).unwrap_or_default()
+            ))
         })?;
 
         let interceptor = AddAuthorizationInterceptor::new(credentials)?;
@@ -103,7 +109,7 @@ impl Client {
                     language: language.to_string(),
                 }),
                 resource: Some(RecognitionResource {
-                    resource: Some(Resource::Model(i32::from(model))),
+                    resource_union: Some(ResourceUnion::Topic(i32::from(model))),
                 }),
             })),
         };
@@ -122,7 +128,7 @@ impl Client {
                     language: language.to_string(),
                 }),
                 resource: Some(RecognitionResource {
-                    resource: Some(Resource::InlineGrammar(grammar.to_string())),
+                    resource_union: Some(ResourceUnion::InlineGrammar(grammar.to_string())),
                 }),
             })),
         };
@@ -143,9 +149,34 @@ impl Client {
             .recognize_stream(Request::new(s))
             .await
             .map_err(|e| {
-                SpeechCenterError::Recognision(format!("Error in recognision: {:?}", e))
+                SpeechCenterError::Recognision(format!(
+                    "Error in recognition: [{}] {}",
+                    e.code(),
+                    e.message()
+                ))
             })?;
         let res = r.get_ref();
         Ok(res.text.to_string())
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[tokio::test]
+    async fn test_empty_url() {
+        let error = Client::new("", "")
+            .await
+            .expect_err("Should not be able to create a client");
+        assert!(matches!(error, SpeechCenterError::Unknown(_)));
+    }
+
+    #[tokio::test]
+    async fn test_connection_error() {
+        let error = Client::new("http://127.0.0.1:9999", "")
+            .await
+            .expect_err("Should not be able to connect anywhere");
+        assert!(matches!(error, SpeechCenterError::Connection(_)));
     }
 }

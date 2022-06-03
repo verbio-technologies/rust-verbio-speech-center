@@ -1,80 +1,81 @@
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RecognitionRequest {
-    #[prost(oneof = "recognition_request::RequestUnion", tags = "1, 2")]
-    pub request_union: ::core::option::Option<recognition_request::RequestUnion>,
-}
-/// Nested message and enum types in `RecognitionRequest`.
-pub mod recognition_request {
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum RequestUnion {
-        ///Init message with the recognition data
-        #[prost(message, tag = "1")]
-        Init(super::RecognitionInit),
-        ///Raw bytes in signed 16-bit little endian PCM, 8kHz
-        #[prost(bytes, tag = "2")]
-        Audio(::prost::alloc::vec::Vec<u8>),
-    }
-}
-/// An init message with the recognition data
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RecognitionInit {
-    ///General parameters for the recognition, such as language
+pub struct SynthesisRequest {
+    /// Voice to use for the synthesis request.
     #[prost(message, optional, tag = "1")]
-    pub parameters: ::core::option::Option<RecognitionParameters>,
-    ///The request must specify either a topic or an ABNF grammar
-    #[prost(message, optional, tag = "2")]
-    pub resource: ::core::option::Option<RecognitionResource>,
+    pub voice: ::core::option::Option<SynthesisVoice>,
+    /// Text to synthesize to audio.
+    #[prost(string, tag = "2")]
+    pub text: ::prost::alloc::string::String,
+    /// Voice sampling rate (VOICE_SAMPLING_RATE_8KHZ by default).
+    #[prost(enumeration = "VoiceSamplingRate", tag = "3")]
+    pub voice_sampling_rate: i32,
+    /// Audio format for the synthesized audio (AUDIO_FORMAT_WAV_LPCM_S16LE by default).
+    #[prost(enumeration = "AudioFormat", tag = "4")]
+    pub audio_format: i32,
 }
-/// This message will contain the language locale of your audio in IETF BCP 47 format
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RecognitionParameters {
-    ///Currently supported: en-US, es-ES, pt-BR
-    #[prost(string, tag = "1")]
-    pub language: ::prost::alloc::string::String,
+pub struct SynthesisVoice {
+    #[prost(oneof = "synthesis_voice::SynthesisUnion", tags = "1, 2")]
+    pub synthesis_union: ::core::option::Option<synthesis_voice::SynthesisUnion>,
 }
-/// The request must specify either a topic or an ABNF grammar
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RecognitionResource {
-    #[prost(oneof = "recognition_resource::ResourceUnion", tags = "1, 2")]
-    pub resource_union: ::core::option::Option<recognition_resource::ResourceUnion>,
-}
-/// Nested message and enum types in `RecognitionResource`.
-pub mod recognition_resource {
+/// Nested message and enum types in `SynthesisVoice`.
+pub mod synthesis_voice {
+    /// Voices supported by language and name.
     #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
     #[repr(i32)]
-    pub enum Model {
-        ///Suitable for any generic speech
-        Generic = 0,
-        ///Transcription will be optimized for banking recordings
-        Banking = 1,
-        ///Transcription will be optimized for telecommunications companies
-        Telco = 2,
+    pub enum Voice {
+        /// American English male voice.
+        EnUsTommy = 0,
+        /// American English female voice.
+        EnUsAnnie = 1,
+        /// Spanish female voice.
+        EsEsAurora = 2,
+        /// Spanish male voice.
+        EsEsDavid = 3,
+        /// Brazilian female voice.
+        PtBrLuma = 4,
+        /// Catalan male voice.
+        CaCaDavid = 5,
     }
     #[derive(Clone, PartialEq, ::prost::Oneof)]
-    pub enum ResourceUnion {
-        ///An inline ABNF grammar used for the recognition
+    pub enum SynthesisUnion {
+        /// Client custom voice. Currently not implemented.
         #[prost(string, tag = "1")]
-        InlineGrammar(::prost::alloc::string::String),
-        ///The topic will determine the statistic language model used for the recognition
-        #[prost(enumeration = "Model", tag = "2")]
-        Topic(i32),
+        CustomVoice(::prost::alloc::string::String),
+        /// One of the voices from Voice.
+        #[prost(enumeration = "Voice", tag = "2")]
+        Voice(i32),
     }
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RecognitionResponse {
-    ///The full transcription of the audio.
-    #[prost(string, tag = "1")]
-    pub text: ::prost::alloc::string::String,
+pub struct SynthesisResponse {
+    /// Returned audio data in the requested AudioFormat.
+    #[prost(bytes = "vec", tag = "1")]
+    pub audio: ::prost::alloc::vec::Vec<u8>,
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum AudioFormat {
+    /// Linear Pulse-Code Modulation with signed 16 bit samples, little endian byte order, with a WAV header.
+    WavLpcmS16le = 0,
+    /// Linear Pulse-Code Modulation with signed 16 bit samples, little endian byte order, without any header.
+    RawLpcmS16le = 1,
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+pub enum VoiceSamplingRate {
+    /// Voice sampling rate is 8 kHz.
+    VoiceSamplingRate8khz = 0,
 }
 #[doc = r" Generated client implementations."]
-pub mod speech_recognizer_client {
+pub mod speech_synthesizer_client {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
     #[derive(Debug, Clone)]
-    pub struct SpeechRecognizerClient<T> {
+    pub struct SpeechSynthesizerClient<T> {
         inner: tonic::client::Grpc<T>,
     }
-    impl SpeechRecognizerClient<tonic::transport::Channel> {
+    impl SpeechSynthesizerClient<tonic::transport::Channel> {
         #[doc = r" Attempt to create a new client by connecting to a given endpoint."]
         pub async fn connect<D>(dst: D) -> Result<Self, tonic::transport::Error>
         where
@@ -85,7 +86,7 @@ pub mod speech_recognizer_client {
             Ok(Self::new(conn))
         }
     }
-    impl<T> SpeechRecognizerClient<T>
+    impl<T> SpeechSynthesizerClient<T>
     where
         T: tonic::client::GrpcService<tonic::body::BoxBody>,
         T::ResponseBody: Body + Send + 'static,
@@ -99,7 +100,7 @@ pub mod speech_recognizer_client {
         pub fn with_interceptor<F>(
             inner: T,
             interceptor: F,
-        ) -> SpeechRecognizerClient<InterceptedService<T, F>>
+        ) -> SpeechSynthesizerClient<InterceptedService<T, F>>
         where
             F: tonic::service::Interceptor,
             T: tonic::codegen::Service<
@@ -111,7 +112,7 @@ pub mod speech_recognizer_client {
             <T as tonic::codegen::Service<http::Request<tonic::body::BoxBody>>>::Error:
                 Into<StdError> + Send + Sync,
         {
-            SpeechRecognizerClient::new(InterceptedService::new(inner, interceptor))
+            SpeechSynthesizerClient::new(InterceptedService::new(inner, interceptor))
         }
         #[doc = r" Compress requests with `gzip`."]
         #[doc = r""]
@@ -126,10 +127,10 @@ pub mod speech_recognizer_client {
             self.inner = self.inner.accept_gzip();
             self
         }
-        pub async fn recognize_stream(
+        pub async fn synthesize(
             &mut self,
-            request: impl tonic::IntoStreamingRequest<Message = super::RecognitionRequest>,
-        ) -> Result<tonic::Response<super::RecognitionResponse>, tonic::Status> {
+            request: impl tonic::IntoRequest<super::SynthesisRequest>,
+        ) -> Result<tonic::Response<super::SynthesisResponse>, tonic::Status> {
             self.inner.ready().await.map_err(|e| {
                 tonic::Status::new(
                     tonic::Code::Unknown,
@@ -138,34 +139,32 @@ pub mod speech_recognizer_client {
             })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/csr_grpc_gateway.SpeechRecognizer/RecognizeStream",
+                "/speechcenter.tts.v1.SpeechSynthesizer/Synthesize",
             );
-            self.inner
-                .client_streaming(request.into_streaming_request(), path, codec)
-                .await
+            self.inner.unary(request.into_request(), path, codec).await
         }
     }
 }
 #[doc = r" Generated server implementations."]
-pub mod speech_recognizer_server {
+pub mod speech_synthesizer_server {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
-    #[doc = "Generated trait containing gRPC methods that should be implemented for use with SpeechRecognizerServer."]
+    #[doc = "Generated trait containing gRPC methods that should be implemented for use with SpeechSynthesizerServer."]
     #[async_trait]
-    pub trait SpeechRecognizer: Send + Sync + 'static {
-        async fn recognize_stream(
+    pub trait SpeechSynthesizer: Send + Sync + 'static {
+        async fn synthesize(
             &self,
-            request: tonic::Request<tonic::Streaming<super::RecognitionRequest>>,
-        ) -> Result<tonic::Response<super::RecognitionResponse>, tonic::Status>;
+            request: tonic::Request<super::SynthesisRequest>,
+        ) -> Result<tonic::Response<super::SynthesisResponse>, tonic::Status>;
     }
     #[derive(Debug)]
-    pub struct SpeechRecognizerServer<T: SpeechRecognizer> {
+    pub struct SpeechSynthesizerServer<T: SpeechSynthesizer> {
         inner: _Inner<T>,
         accept_compression_encodings: (),
         send_compression_encodings: (),
     }
     struct _Inner<T>(Arc<T>);
-    impl<T: SpeechRecognizer> SpeechRecognizerServer<T> {
+    impl<T: SpeechSynthesizer> SpeechSynthesizerServer<T> {
         pub fn new(inner: T) -> Self {
             let inner = Arc::new(inner);
             let inner = _Inner(inner);
@@ -182,9 +181,9 @@ pub mod speech_recognizer_server {
             InterceptedService::new(Self::new(inner), interceptor)
         }
     }
-    impl<T, B> tonic::codegen::Service<http::Request<B>> for SpeechRecognizerServer<T>
+    impl<T, B> tonic::codegen::Service<http::Request<B>> for SpeechSynthesizerServer<T>
     where
-        T: SpeechRecognizer,
+        T: SpeechSynthesizer,
         B: Body + Send + 'static,
         B::Error: Into<StdError> + Send + 'static,
     {
@@ -197,21 +196,20 @@ pub mod speech_recognizer_server {
         fn call(&mut self, req: http::Request<B>) -> Self::Future {
             let inner = self.inner.clone();
             match req.uri().path() {
-                "/csr_grpc_gateway.SpeechRecognizer/RecognizeStream" => {
+                "/speechcenter.tts.v1.SpeechSynthesizer/Synthesize" => {
                     #[allow(non_camel_case_types)]
-                    struct RecognizeStreamSvc<T: SpeechRecognizer>(pub Arc<T>);
-                    impl<T: SpeechRecognizer>
-                        tonic::server::ClientStreamingService<super::RecognitionRequest>
-                        for RecognizeStreamSvc<T>
+                    struct SynthesizeSvc<T: SpeechSynthesizer>(pub Arc<T>);
+                    impl<T: SpeechSynthesizer> tonic::server::UnaryService<super::SynthesisRequest>
+                        for SynthesizeSvc<T>
                     {
-                        type Response = super::RecognitionResponse;
+                        type Response = super::SynthesisResponse;
                         type Future = BoxFuture<tonic::Response<Self::Response>, tonic::Status>;
                         fn call(
                             &mut self,
-                            request: tonic::Request<tonic::Streaming<super::RecognitionRequest>>,
+                            request: tonic::Request<super::SynthesisRequest>,
                         ) -> Self::Future {
                             let inner = self.0.clone();
-                            let fut = async move { (*inner).recognize_stream(request).await };
+                            let fut = async move { (*inner).synthesize(request).await };
                             Box::pin(fut)
                         }
                     }
@@ -220,13 +218,13 @@ pub mod speech_recognizer_server {
                     let inner = self.inner.clone();
                     let fut = async move {
                         let inner = inner.0;
-                        let method = RecognizeStreamSvc(inner);
+                        let method = SynthesizeSvc(inner);
                         let codec = tonic::codec::ProstCodec::default();
                         let mut grpc = tonic::server::Grpc::new(codec).apply_compression_config(
                             accept_compression_encodings,
                             send_compression_encodings,
                         );
-                        let res = grpc.client_streaming(method, req).await;
+                        let res = grpc.unary(method, req).await;
                         Ok(res)
                     };
                     Box::pin(fut)
@@ -242,7 +240,7 @@ pub mod speech_recognizer_server {
             }
         }
     }
-    impl<T: SpeechRecognizer> Clone for SpeechRecognizerServer<T> {
+    impl<T: SpeechSynthesizer> Clone for SpeechSynthesizerServer<T> {
         fn clone(&self) -> Self {
             let inner = self.inner.clone();
             Self {
@@ -252,7 +250,7 @@ pub mod speech_recognizer_server {
             }
         }
     }
-    impl<T: SpeechRecognizer> Clone for _Inner<T> {
+    impl<T: SpeechSynthesizer> Clone for _Inner<T> {
         fn clone(&self) -> Self {
             Self(self.0.clone())
         }
@@ -262,7 +260,7 @@ pub mod speech_recognizer_server {
             write!(f, "{:?}", self.0)
         }
     }
-    impl<T: SpeechRecognizer> tonic::transport::NamedService for SpeechRecognizerServer<T> {
-        const NAME: &'static str = "csr_grpc_gateway.SpeechRecognizer";
+    impl<T: SpeechSynthesizer> tonic::transport::NamedService for SpeechSynthesizerServer<T> {
+        const NAME: &'static str = "speechcenter.tts.v1.SpeechSynthesizer";
     }
 }

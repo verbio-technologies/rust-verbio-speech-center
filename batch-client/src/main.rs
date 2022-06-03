@@ -24,11 +24,11 @@ struct Args {
     )]
     log_level: String,
 
-    /// Path to the authentication token file
+    /// Path to the JWT authentication token file
     #[structopt(short = "t", long = "token-file", required = true)]
     token_file: String,
 
-    /// The URL of the host or server trying to reach
+    /// The URL of the gRPC host or server trying to reach
     #[structopt(
         short = "u",
         long = "url",
@@ -49,7 +49,7 @@ struct Args {
     #[structopt(short = "D", long = "dest-dir", required = true)]
     dest_dir: String,
 
-    /// Language to use for the recognition
+    /// IETF BCP-47 Language to use for the recognition. Supported en-US | es-ES | pt-BR
     #[structopt(
         short = "l",
         long = "language",
