@@ -33,7 +33,7 @@ struct Args {
         short = "u",
         long = "url",
         required = true,
-        default_value = "csr.api.speechcenter.verbio.com"
+        default_value = "https://csr.api.speechcenter.verbio.com"
     )]
     url: String,
 
