@@ -14,7 +14,7 @@ pub struct Synthesis {
         short = "u",
         long = "url",
         required = true,
-        default_value = "https://tts.api.speechcenter.verbio.com"
+        default_value = "tts.api.speechcenter.verbio.com"
     )]
     url: String,
 

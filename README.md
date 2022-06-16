@@ -70,7 +70,7 @@ OPTIONS:
     -l, --language <language>        IETF BCP-47 Language to use for the recognition. Supported en-US | es-ES | pt-BR [default: en-US]
     -t, --token-file <token-file>    Path to the JWT authentication token file
     -T, --topic <topic>              Topic to use for the recognition. Must be GENERIC | BANKING | TELCO
-    -u, --url <url>                  The URL of the gRPC host or server trying to reach [default: https://csr.api.speechcenter.verbio.com]
+    -u, --url <url>                  The URL of the gRPC host or server trying to reach [default: csr.api.speechcenter.verbio.com]
 ```
 
 An example execution could be:
@@ -125,7 +125,7 @@ OPTIONS:
     -T, --text <text>                  Text to synthesize to audio
     -t, --token-file <token-file>      Path to the JWT authentication token file
     -u, --url <url>                    The URL of the gRPC host or server trying to reach [default:
-                                       https://tts.api.speechcenter.verbio.com]
+                                       tts.api.speechcenter.verbio.com]
     -v, --voice <voice>                Voice to use for the synthesis. Supported Tommy | Annie | Aurora | Luma | David
 ```
 
@@ -158,7 +158,7 @@ OPTIONS:
     -d, --dir <source-dir>           Directory containing .wav audios in 8kHz and PCM16 encoding to use for the recognition
     -t, --token-file <token-file>    Path to the JWT authentication token file
     -T, --topic <topic>              Topic to use for the recognition. Must be GENERIC | BANKING | TELCO
-    -u, --url <url>                  The URL of the gRPC  host or server trying to reach [default: https://csr.api.speechcenter.verbio.com]
+    -u, --url <url>                  The URL of the gRPC  host or server trying to reach [default: csr.api.speechcenter.verbio.com]
     -w, --workers <workers>          Number of workers to use for the recognition [default: 4]
 ```
 
