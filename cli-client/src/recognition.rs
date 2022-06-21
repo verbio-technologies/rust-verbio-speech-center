@@ -13,7 +13,7 @@ pub struct Recognition {
         short = "u",
         long = "url",
         required = true,
-        default_value = "https://speechcenter.verbio.com:2424"
+        default_value = "https://csr.api.speechcenter.verbio.com"
     )]
     url: String,
 
