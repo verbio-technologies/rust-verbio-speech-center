@@ -35,7 +35,7 @@ pub mod synthesis_voice {
         /// Brazilian female voice.
         PtBrLuma = 4,
         /// Catalan male voice.
-        CaCaDavid = 5,
+        CaEsDavid = 5,
     }
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     pub enum SynthesisUnion {

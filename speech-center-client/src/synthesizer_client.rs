@@ -20,7 +20,7 @@ pub enum Speaker {
     EsEsAurora,
     EsEsDavid,
     PtBrLuma,
-    CaCaDavid,
+    CaEsDavid,
 }
 
 impl Speaker {
@@ -34,7 +34,7 @@ impl Speaker {
             ("aurora", "es-es") => Ok(Self::EsEsAurora),
             ("david", "es-es") => Ok(Self::EsEsDavid),
             ("luma", "pt-br") => Ok(Self::PtBrLuma),
-            ("david", "ca-es") => Ok(Self::CaCaDavid),
+            ("david", "ca-es") => Ok(Self::CaEsDavid),
             _ => Err(SpeechCenterError::Unknown(format!(
                 "Nonexistent Speaker for Name/LanguageTag combination: {}/{}",
                 name, language
@@ -49,7 +49,7 @@ impl Speaker {
             Self::EsEsAurora => Voice::EsEsAurora,
             Self::EsEsDavid => Voice::EsEsDavid,
             Self::PtBrLuma => Voice::PtBrLuma,
-            Self::CaCaDavid => Voice::CaCaDavid,
+            Self::CaEsDavid => Voice::CaEsDavid,
         }
     }
 }
