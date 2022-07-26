@@ -43,7 +43,7 @@ pub struct Synthesis {
     #[structopt(short = "T", long = "text", required = true)]
     text: String,
 
-    /// IETF BCP-47 Language to use for the recognition. Supported en-US | es-ES | pt-BR | ca-CA
+    /// IETF BCP-47 Language to use for the recognition. Supported en-US | es-ES | pt-BR | ca-ES
     #[structopt(
         short = "l",
         long = "language",

@@ -34,7 +34,7 @@ impl Speaker {
             ("aurora", "es-es") => Ok(Self::EsEsAurora),
             ("david", "es-es") => Ok(Self::EsEsDavid),
             ("luma", "pt-br") => Ok(Self::PtBrLuma),
-            ("david", "ca-ca") => Ok(Self::CaCaDavid),
+            ("david", "ca-es") => Ok(Self::CaCaDavid),
             _ => Err(SpeechCenterError::Unknown(format!(
                 "Nonexistent Speaker for Name/LanguageTag combination: {}/{}",
                 name, language
