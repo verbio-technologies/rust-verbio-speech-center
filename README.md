@@ -90,7 +90,7 @@ If you wish to know more about certain parameters such as [Audio Encoding](https
 
 <div align="center">
 
-|Language<br>-<br>Voice|en-US|es-ES|pt-BR|ca-CA|
+|Language<br>-<br>Voice|en-US|es-ES|pt-BR|ca-ES|
 |:--------------------:|:---:|:---:|:---:|:---:|
 |         Tommy        |**X**|     |     |     |
 |         Annie        |**X**|     |     |     |
@@ -119,7 +119,7 @@ OPTIONS:
     -h, --header <header>              Output audio header. Supported: WAV (Wav audio header) | RAW (No header)
                                        [default: WAV]
     -l, --language <language>          IETF BCP-47 Language to use for the recognition. Supported en-US | es-ES | pt-BR
-                                       | ca-CA [default: en-US]
+                                       | ca-ES [default: en-US]
     -o, --output <output>              Path to store the synthesis resulting audio
     -s, --sample-rate <sample-rate>    Output audio sample rate in Hz. Available 8000 [default: 8000]
     -T, --text <text>                  Text to synthesize to audio
