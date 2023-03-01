@@ -1,3 +1,5 @@
+> WARNING: This repository is no longer updated or mantained. Please refer to our [python](https://github.com/verbio-technologies/python-verbio-speech-center) or [c++](https://github.com/verbio-technologies/cpp-verbio-speech-center) alternatives.
+
 # Rust integration with the Verbio Speech Center cloud.
 
 This repository contains a Rust based example of how to use the Verbio Technologies Speech Center cloud.
